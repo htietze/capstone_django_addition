@@ -8,6 +8,8 @@ from .models import Place
 class TestHomePage(TestCase):
 
     def test_load_home_page_shows_empty_list_for_empty_database(self):
+        # pulls the url, uses it to get the home page, then checks to see if it used the right html
+        # template with the right text in it.
         home_page_url = reverse('place_list')
         response = self.client.get(home_page_url)
         self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
@@ -17,6 +19,8 @@ class TestWishList(TestCase):
     fixtures = ['test_places']
 
     def test_view_wishlist_contains_not_visited_places(self):
+        # gets url, I'm assuming reverse makes it into a test kind of deal?
+        # then checks for the template and displayed data.
         response = self.client.get(reverse('place_list'))
         self.assertTemplateUsed(response, 'travel_wishlist/wishlist.html')
 

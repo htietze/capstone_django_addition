@@ -4,6 +4,10 @@ from django.test import LiveServerTestCase
 
 class TitleTest(LiveServerTestCase):
 
+    # this bit doesn't make a lot of sense.
+
+    # setup and teardown classes like usual, super() declares what the method is?
+    # setup brings in the webdriver, and then a 10ms wait time to give it time to start I assume
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -15,8 +19,9 @@ class TitleTest(LiveServerTestCase):
         cls.selenium.quit()
         super().tearDownClass()
 
+    # this caused issues with my mac, live_server_url was causing errors but not causing test failures.
+    # selenium gets the web page using the live_server_url which would lead to the main page I think
     def test_title_on_home_page(self):
-        print('test')
         self.selenium.get(self.live_server_url)
         self.assertIn('Travel Wishlist', self.selenium.title)
 
@@ -36,6 +41,10 @@ class AddPlacesTest(LiveServerTestCase):
         cls.selenium.quit()
         super().tearDownClass()
     
+    # also had errors here
+    # selenium finds html elements with their IDs and checks the element contents
+    # this lets it find the button whichi it can click to add info it provides
+    # then does another check to make sure that data is in the refreshed webpage html again.
     def test_add_new_place(self):
         self.selenium.get(self.live_server_url)
         input_name = self.selenium.find_element_by_id('id_name')

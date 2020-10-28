@@ -25,10 +25,12 @@ def place_list(request):
     return render(request, 'travel_wishlist/wishlist.html', { 'places': places, 'new_place_form': new_place_form })
 
 def places_visited(request):
+    # Place.objects pulls from the database, filtered to only show visited=True, then that info is rendered on the page
     visited = Place.objects.filter(visited=True)
     return render(request, 'travel_wishlist/visited.html', { 'visited': visited })
 
 def place_was_visited(request, place_pk):
+    # this updates a database entry using the automatic pk, but if the pk doesn't exist, it'll 404 instead of saving
     if request.method == "POST":
         place = get_object_or_404(Place, pk=place_pk)
         place.visited = True
