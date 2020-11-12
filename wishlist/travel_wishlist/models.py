@@ -12,8 +12,17 @@ class Place(models.Model):
     date_visited = models.DateField(blank=True, null=True)
     photo = models.ImageField(upload_to='user_images/', blank=True, null=True)
 
+    """
+    Overrides for the class' functions - save, delete, __str__
+
+    Save uses the primary key to pull in the Place, then sees if it has a photo
+    and if it did, the old photo is deleted from the saved files, clearing space
+    Then uses the super().save to use the standard save function I think, the one
+    that would be run if we hadn't overridden part of it.
+    Delete does the same thing, saving code because we don't have to rewrite what delete() would do
+    
+    """
     def save(self, *args, **kwargs):
-        # get ref to previous version
         old_place = Place.objects.filter(pk=self.pk).first()
         if old_place and old_place.photo:
             if old_place.photo != self.photo:

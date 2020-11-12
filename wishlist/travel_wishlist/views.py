@@ -8,6 +8,8 @@ from django.http import HttpResponseForbidden
 
 # Create your views here.
 
+# login required decorator makes it so only the accepted users can use these functions,
+# the list of users is stored in the database and accessed by the login (login page missing if not admin I think)
 @login_required
 def place_list(request):
 
@@ -42,6 +44,7 @@ def place_was_visited(request, place_pk):
     if request.method == "POST":
         place = get_object_or_404(Place, pk=place_pk)
         print(place.user, request.user)
+        # Only the user that the database entry is tied to can change that entry
         if place.user == request.user: # only auth'd users can select visited
             place.visited = True
             place.save()

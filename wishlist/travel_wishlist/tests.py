@@ -394,6 +394,7 @@ class TestImageUpload(TestCase):
 
                 self.assertFalse(os.path.exists(uploaded_file_path))
                
+# Old tests from Lab 9
 
 # class TestHomePage(TestCase):
 
