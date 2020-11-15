@@ -1,0 +1,15 @@
+runtime: python37
+entrypoint: gunicorn -b :$PORT wishlist.wsgi
+
+handlers:
+- url: /static
+  static_dir: www/static/
+  
+- url: /.*
+  script: auto
+
+env_variables:
+  TRAVELER_PW: 4Gowe7Kow!
+
+beta_settings:
+  cloud_sql_instances: wishlist-295423:us-central1:wishlist-lab-db

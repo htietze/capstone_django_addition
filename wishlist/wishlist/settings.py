@@ -26,7 +26,7 @@ SECRET_KEY = '@^7rs$9l53no1lm_ftywaknxw@u(c0!mzrt+%a=#!jiebfak^j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,10 +77,19 @@ WSGI_APPLICATION = 'wishlist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'places',
+        'USER': 'traveler',
+        'PASSWORD': os.getenv('TRAVELER_PW'),
+        'HOST': '/cloudsql/wishlist-295423:us-central1:wishlist-lab-db',
+        'PORT': '5432'
     }
 }
+
+# If not running at GAE, the host on local computer to connect to db
+# using cloud_sql_proxy
+if not os.getenv('GAE_INSTANCE'):
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 
 # Password validation
@@ -118,6 +127,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+# adding static root for collectstatic?? not sure why it's not here
+STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 
 STATIC_URL = '/static/'
 
